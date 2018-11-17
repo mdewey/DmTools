@@ -4,13 +4,33 @@ import axios from 'axios';
 
 export class Home extends Component {
 
+  updateInterval;
+
   state = {
     newPlayerName: "",
-    players: []
+    players: [], 
+    status:""
   }
 
   componentDidMount() {
     this.getPlayers();
+  }
+
+  startPull = () => {
+    this.setState({
+      status:"waiting for players"
+    })
+    this.updateInterval = setInterval(() => {
+      console.log("getting players")
+      this.getPlayers();
+    }, 1000);
+  }
+  stopPull = () => {
+    this.setState({status:"got players"}, () => setTimeout(() => {
+      this.setState({status:""})
+    }, 5000));
+    console.log("stopping interval")
+    clearInterval(this.updateInterval);
   }
 
   getPlayers = () => {
@@ -81,6 +101,8 @@ export class Home extends Component {
 
   }
 
+
+
   render() {
     return (
       <div>
@@ -91,6 +113,9 @@ export class Home extends Component {
             <input placeholder="Add new player" onChange={this.handleNewPlayerNameChange} />
             <button>Add player</button>
           </form>
+          <button onClick={this.startPull}>gather</button>
+          {this.state.status}
+          <button onClick={this.stopPull}>stop</button>
         </section>
         <section>
           <ul>
