@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import YesNotDice from './YesNoDice';
 
 
 export class Home extends Component {
@@ -135,6 +136,10 @@ export class Home extends Component {
               </li>
             })}
           </ul>
+        </section>
+     
+        <section>
+          <YesNotDice/>
         </section>
       </div>
     );
