@@ -1,5 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
+import MaterialIcon, { colorPalette } from "material-icons-react";
+import "./style.css";
+
+let loader = (
+	<div className="lds-ripple">
+		<div />
+		<div />
+	</div>
+);
 
 class InitTracker extends Component {
 	updateInterval;
@@ -53,9 +62,13 @@ class InitTracker extends Component {
 			.post("/api/players", { playerName: this.state.newPlayerName })
 			.then(json => {
 				console.log({ json });
-				this.setState({
-					players: this.state.players.concat(json.data)
-				});
+				this.setState(
+					{
+						players: this.state.players.concat(json.data),
+						newPlayerName: ""
+					},
+					() => {}
+				);
 			});
 	};
 
@@ -96,47 +109,71 @@ class InitTracker extends Component {
 
 	render() {
 		return (
-			<div>
-				<h1>Init Tracker</h1>
-				<section>
-					<button onClick={this.sortPlayers}>sort</button>
-					<form onSubmit={this.addPlayerToGame}>
-						<input
-							placeholder="Add new player"
-							onChange={this.handleNewPlayerNameChange}
-						/>
-						<button>Add player</button>
-					</form>
+			<div className="init-tracker">
+				<header>Init Tracker</header>
+				<main>
+					<section>
+						<form onSubmit={this.addPlayerToGame}>
+							<input
+								placeholder="Add new player"
+								onChange={this.handleNewPlayerNameChange}
+								value={this.state.newPlayerName}
+							/>
+							<button className="btn btn-link uppercase add-person-btn">
+								<MaterialIcon
+									icon="person_add"
+									size="tiny"
+									preloader={loader}
+								/>
+							</button>
+						</form>
+						<button
+							onClick={this.sortPlayers}
+							className="uppercase btn btn-primary sort-button"
+						>
+							sort
+						</button>
+						{/* 
+				TODO: add back in 
 					<button onClick={this.startPull}>gather</button>
 					{this.state.status}
-					<button onClick={this.stopPull}>stop</button>
-				</section>
-				<section>
-					<ul>
-						{this.state.players.map(player => {
-							return (
-								<li key={player.id} className="">
-									<span>{player.playerName}</span>
-									<span>
-										<input
-											placeholder="init"
-											value={player.lastInitiative}
-											onBlur={e => this.savePlayerInit(e, player.id)}
-											onChange={e => this.updatePlayerInit(e, player.id)}
-											type="number"
-											className="init-input"
-										/>
-									</span>
-									<span>
-										<button onClick={() => this.deletePlayer(player.id)}>
-											remove
-										</button>
-									</span>
-								</li>
-							);
-						})}
-					</ul>
-				</section>
+					<button onClick={this.stopPull}>stop</button> */}
+					</section>
+					<section>
+						<ul>
+							{this.state.players.map(player => {
+								return (
+									<li key={player.id} className="">
+										<span>
+											<input
+												placeholder="init"
+												value={player.lastInitiative}
+												onBlur={e => this.savePlayerInit(e, player.id)}
+												onChange={e => this.updatePlayerInit(e, player.id)}
+												type="number"
+												className="init-input"
+											/>
+										</span>
+										<span className="player-name">{player.playerName}</span>
+
+										<span>
+											<button
+												className="btn btn-link"
+												onClick={() => this.deletePlayer(player.id)}
+											>
+												<MaterialIcon
+													icon="remove_circle"
+													size="tiny"
+													preloader={loader}
+												/>
+											</button>
+										</span>
+									</li>
+								);
+							})}
+						</ul>
+					</section>
+				</main>
 			</div>
 		);
 	}
