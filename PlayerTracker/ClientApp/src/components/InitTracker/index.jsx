@@ -81,16 +81,17 @@ class InitTracker extends Component {
 	};
 
 	updatePlayerInit = (e, playerId) => {
+		console.log({ val: e.target.value, playerId });
 		const index = this.state.players.findIndex(f => f.id === playerId);
 		const player = this.state.players[index];
 		const players = [...this.state.players];
-		player.lastInitiative = parseInt(e.target.value, 10);
+		player.lastInitiative = e.target.value;
 		players[index] = player;
 		this.setState({ players });
 	};
 
 	savePlayerInit = (e, playerId) => {
-		axios.post(`/api/players/${playerId}/initiative/${e.target.value}`);
+		axios.post(`/api/players/${playerId}/initiative?init=${e.target.value}`);
 	};
 
 	sortPlayers = () => {
@@ -150,7 +151,7 @@ class InitTracker extends Component {
 												value={player.lastInitiative}
 												onBlur={e => this.savePlayerInit(e, player.id)}
 												onChange={e => this.updatePlayerInit(e, player.id)}
-												type="number"
+												type="text"
 												className="init-input"
 											/>
 										</span>
