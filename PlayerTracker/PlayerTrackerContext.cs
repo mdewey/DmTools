@@ -28,7 +28,7 @@ namespace PlayerTracker
       if (!optionsBuilder.IsConfigured)
       {
         var envConn = Environment.GetEnvironmentVariable("DATABASE_URL");
-        var conn = "server=localhost;database=PlayerTracker;User Id=postgres;Password=admin ";
+        var conn = "server=localhost;database=PlayerTracker";//User Id=postgres;Password=admin ";
         if (envConn != null)
         {
           conn = ConvertPostConnectionToConnectionString(envConn);

@@ -1,9 +1,22 @@
-import React, { Component } from "react";
+import React, { useState } from 'react'
 
-class Notes extends Component {
-	render() {
-		return <section>DM NOtes</section>;
-	}
+export default function Notes() {
+  const [notes, setNotes] = useState('')
+  return (
+    <section className="dm-notes">
+      <header>Notes</header>
+      <main>
+        <form>
+          <textarea
+            value={notes}
+            name="notes area"
+            id="dmNotes"
+            cols="30"
+            rows="10"
+            onChange={e => setNotes(e.target.value)}
+          />
+        </form>
+      </main>
+    </section>
+  )
 }
-
-export default Notes;
