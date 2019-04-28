@@ -39,7 +39,7 @@ export class NavMenu extends Component {
         >
           <Container>
             <NavbarBrand tag={Link} to="/">
-              DM Tools, to help you be or not be, a tool
+              DM Tools, to help you be, or not be, a tool
             </NavbarBrand>
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse

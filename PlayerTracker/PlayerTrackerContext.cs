@@ -41,5 +41,6 @@ namespace PlayerTracker
     { }
 
     public DbSet<Models.Player> Players { get; set; }
+    public DbSet<Models.Note> Notes { get; set; }
   }
 }
