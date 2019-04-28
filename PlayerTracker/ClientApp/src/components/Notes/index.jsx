@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { format } from 'date-fns'
-import { getClassNames } from 'dynamic-class-list'
-import classNames from 'classnames/bind'
+import { getClassNames } from 'dynamic-class-list'cd 
 import './style.css'
 
 let timeout
 class Notes extends Component {
   state = {
     currentNote: '',
-    unsaved: true
+    unsaved: false
   }
 
   setNoteFromApi = note => {
