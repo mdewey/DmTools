@@ -2,3 +2,30 @@
 	display: flex;
 	justify-content: space-between;
 }
+
+.tool-container {
+	margin: 1rem 1rem 1rem 1rem;
+	padding: 0;
+	border: 2px solid lightgrey;
+}
+
+.tool-container header {
+	font-size: 0.95rem;
+	font-weight: bold;
+	text-align: left;
+	width: 100%;
+	padding: 0;
+	margin-bottom: 1rem;
+	padding: 0.75rem;
+	color: white;
+	background-color: lightskyblue;
+}
+
+.tool-container main {
+	margin: 1rem;
+}
+
+.tool-container form {
+	display: flex;
+	justify-content: center;
+}

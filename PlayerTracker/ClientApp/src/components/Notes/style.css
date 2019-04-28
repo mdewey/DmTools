@@ -1,3 +1,20 @@
-.unsaved {
+.dm-notes header {
+  -webkit-transition: background-color 2s;
+  transition: background-color 2s;
+}
+
+.dm-notes header.unsaved {
   background-color: orangered;
+  -webkit-transition: background-color 2s;
+  transition: background-color 2s;
+}
+
+.dm-notes form {
+  flex-direction: column;
+  align-items: center;
+}
+
+.dm-notes em {
+  font-size: 0.8em;
+  font-style: italic;
 }

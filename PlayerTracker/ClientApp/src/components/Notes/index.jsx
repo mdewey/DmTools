@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { format } from 'date-fns'
-import { getClassNames } from 'dynamic-class-list'cd 
+import { getClassNames } from 'dynamic-class-list'
 import './style.css'
 
 let timeout
@@ -51,7 +51,7 @@ class Notes extends Component {
     const saved = this.state.unsaved
     console.log('a')
     return (
-      <section className="dm-notes">
+      <section className="dm-notes tool-container">
         <header className={getClassNames({ unsaved: this.state.unsaved })}>
           Notes
         </header>
@@ -65,13 +65,13 @@ class Notes extends Component {
               rows="10"
               onChange={e => this.setNotes(e.target.value)}
             />
+            {this.state.timestamp && (
+              <em>
+                saved @{' '}
+                {format(new Date(this.state.timestamp), 'MM/DD/YYYY h:mm:ss')}
+              </em>
+            )}
           </form>
-          {this.state.timestamp && (
-            <em>
-              saved @{' '}
-              {format(new Date(this.state.timestamp), 'MM/DD/YYYY h:mm:ss')}
-            </em>
-          )}
         </main>
       </section>
     )
