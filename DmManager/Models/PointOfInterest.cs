@@ -8,5 +8,8 @@ namespace DmManager.Models
     public string FlavorText { get; set; }
     public string LongDescription { get; set; }
     public string ShortDescription { get; set; }
+
+    public int GameId { get; set; }
+    public Game Game { get; set; }
   }
 }

@@ -7,5 +7,7 @@ namespace DmManager.Models
     public string Name { get; set; }
     public DateTime StartedDate { get; set; } = DateTime.Now;
 
+    // public List<PointOfInterests> PointOfInterest { get; set; } = new List<PointOfInterests>();
+
   }
 }
