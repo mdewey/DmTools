@@ -42,6 +42,9 @@ namespace DmManager.Migrations
                     b.Property<string>("FlavorText")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("GameId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Letter")
                         .HasColumnType("TEXT");
 
@@ -56,7 +59,18 @@ namespace DmManager.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GameId");
+
                     b.ToTable("PointOfInterests");
+                });
+
+            modelBuilder.Entity("DmManager.Models.PointOfInterest", b =>
+                {
+                    b.HasOne("DmManager.Models.Game", "Game")
+                        .WithMany("PointOfInterest")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
