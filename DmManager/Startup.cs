@@ -57,7 +57,6 @@ namespace DmManager
 
       app.UseEndpoints(endpoints =>
       {
-        endpoints.MapRazorPages();
         endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
