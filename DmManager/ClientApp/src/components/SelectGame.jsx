@@ -4,6 +4,7 @@ const SelectGame = props => {
 	const [games, setGames] = useState([]);
 	const selectGame = e => {
 		console.log("updating to ", e.target.value);
+		props.updateSelectedGame(e.target.value);
 	};
 
 	const getGames = async () => {
