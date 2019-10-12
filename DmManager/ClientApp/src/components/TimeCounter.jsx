@@ -18,6 +18,8 @@ const TimeCounter = props => {
 
 	const updateHours = time => setHours(t => t + time);
 	useEffect(() => {
+		//TODO: create or update horus
+
 		const d = Math.floor(hours / 24);
 		console.log({ hours, d });
 		const h = hours - d * 24;
