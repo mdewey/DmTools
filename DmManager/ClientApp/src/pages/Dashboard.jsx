@@ -7,8 +7,10 @@ const Dashboard = () => {
 	const [currentGame, setCurrentGame] = useState({});
 
 	const getGame = async () => {
-		const game = await (await fetch("/api/games/" + selectedGameId)).json();
-		setCurrentGame(game);
+		if (selectedGameId) {
+			const game = await (await fetch("/api/games/" + selectedGameId)).json();
+			setCurrentGame(game);
+		}
 	};
 
 	useEffect(() => {
@@ -19,7 +21,7 @@ const Dashboard = () => {
 		<div>
 			<SelectGame updateSelectedGame={setSelectedGameId} />
 			<header>player {currentGame.name}</header>
-			<TimeCounter />
+			<TimeCounter currentGameId={selectedGameId} />
 		</div>
 	);
 };

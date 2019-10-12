@@ -11,5 +11,7 @@ namespace DmManager.Models
 
     public List<PointOfInterest> PointOfInterest { get; set; } = new List<PointOfInterest>();
 
+    public Hours Hours { get; set; }
+
   }
 }

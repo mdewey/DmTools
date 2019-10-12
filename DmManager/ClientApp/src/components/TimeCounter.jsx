@@ -1,8 +1,20 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-const TimeCounter = () => {
+const TimeCounter = props => {
 	const [displayTime, setDisplayTime] = useState("....");
 	const [hours, setHours] = useState(0);
+
+	const getLatest = async () => {
+		if (props.currentGameId) {
+			const resp = await axios.get(`/api/game/${props.currentGameId}/hours`);
+			setHours(resp.data.time);
+		}
+	};
+
+	useEffect(() => {
+		getLatest();
+	}, [props]);
 
 	const updateHours = time => setHours(t => t + time);
 	useEffect(() => {

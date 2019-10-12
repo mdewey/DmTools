@@ -13,5 +13,8 @@ namespace DmManager
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite("Data Source=database.db");
+
+
+    public DbSet<DmManager.Models.Hours> Hours { get; set; }
   }
 }
