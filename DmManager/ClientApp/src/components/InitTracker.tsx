@@ -48,6 +48,7 @@ const InitTracker = ({ currentGameId }: IInitTracker) => {
     const resp = await axios.post(`/api/game/${currentGameId}/players`, player)
     const createdPlayer = resp.data as Player
     setPlayers(prev => getSortedPlayers([...prev, createdPlayer]))
+    setNewPlayer('')
   }
 
   const deletePlayer = async (playerId: number) => {
