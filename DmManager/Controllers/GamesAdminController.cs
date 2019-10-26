@@ -55,11 +55,11 @@ namespace DmManager.Controllers
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Name,StartedDate")] Game game)
+    public async Task<IActionResult> Create([Bind("Name,StartedDate")] Game game)
     {
       if (ModelState.IsValid)
       {
-        _context.Add(game);
+        _context.Games.Add(game);
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
       }

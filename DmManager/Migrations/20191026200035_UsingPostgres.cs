@@ -1,9 +1,10 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DmManager.Migrations
 {
-    public partial class thuign : Migration
+    public partial class UsingPostgres : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +13,7 @@ namespace DmManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(nullable: true),
                     StartedDate = table.Column<DateTime>(nullable: false)
                 },
@@ -22,11 +23,32 @@ namespace DmManager.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Hours",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Time = table.Column<int>(nullable: false),
+                    DateUpdated = table.Column<DateTime>(nullable: false),
+                    GameId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Hours", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Hours_Games_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Games",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PointOfInterests",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Letter = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: true),
                     FlavorText = table.Column<string>(nullable: true),
@@ -46,6 +68,12 @@ namespace DmManager.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Hours_GameId",
+                table: "Hours",
+                column: "GameId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PointOfInterests_GameId",
                 table: "PointOfInterests",
                 column: "GameId");
@@ -53,6 +81,9 @@ namespace DmManager.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Hours");
+
             migrationBuilder.DropTable(
                 name: "PointOfInterests");
 
