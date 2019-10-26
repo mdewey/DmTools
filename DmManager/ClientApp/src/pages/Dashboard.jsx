@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import TimeCounter from '../components/TimeCounter'
 import SelectGame from '../components/SelectGame'
+import InitTracker from '../components/InitTracker'
 
 const Dashboard = () => {
   const [selectedGameId, setSelectedGameId] = useState(0)
@@ -22,6 +23,7 @@ const Dashboard = () => {
       <SelectGame updateSelectedGame={setSelectedGameId} />
       <h1>Playing: {currentGame.name}</h1>
       <TimeCounter currentGameId={selectedGameId} />
+      <InitTracker currentGameId={selectedGameId} />
     </div>
   )
 }
