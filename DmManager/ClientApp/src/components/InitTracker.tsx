@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
+// TODO: ADD
+// TODO: SORT
+// TODO: DELETE
+
 interface IInitTracker {
   currentGameId: Number
 }
