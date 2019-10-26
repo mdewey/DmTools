@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { async } from 'q'
 
-// TODO: SORT
-
 interface IInitTracker {
   currentGameId: number
 }
@@ -22,20 +20,21 @@ const InitTracker = ({ currentGameId }: IInitTracker) => {
 
   const getLatest = async () => {
     const resp = await axios.get(`/api/game/${currentGameId}/players`)
-    setPlayers(resp.data)
+    setPlayers(getSortedPlayers(resp.data))
   }
 
   const updatePlayerInit = (newValue: string, playerId: number) => {
     setPlayers(prev => {
       const player = prev.filter(f => f.id === playerId)[0]
       player.currentInitiative = parseInt(newValue) || 0
-      return [...prev]
+      return getSortedPlayers(prev)
     })
   }
 
   const updatePlayerOnServer = async (player: Player) => {
     await axios.put(`/api/game/${currentGameId}/players/${player.id}`, player)
   }
+
   const addPlayerToGame = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     console.log({ newPlayer })
@@ -48,7 +47,7 @@ const InitTracker = ({ currentGameId }: IInitTracker) => {
     }
     const resp = await axios.post(`/api/game/${currentGameId}/players`, player)
     const createdPlayer = resp.data as Player
-    setPlayers(prev => [...prev, createdPlayer])
+    setPlayers(prev => getSortedPlayers([...prev, createdPlayer]))
   }
 
   const deletePlayer = async (playerId: number) => {
@@ -56,6 +55,30 @@ const InitTracker = ({ currentGameId }: IInitTracker) => {
       await axios.delete(`/api/game/${currentGameId}/players/${playerId}`)
       setPlayers(prev => prev.filter(f => f.id !== playerId))
     }
+  }
+
+  const getSortedPlayers = (players: Array<Player>): Array<Player> => {
+    return [
+      ...players.sort((a, b) => {
+        if (!a.currentInitiative) {
+          return 1
+        } else if (!b.currentInitiative) {
+          return -1
+        } else {
+          if (a.currentInitiative > b.currentInitiative) {
+            return -1
+          } else if (a.currentInitiative < b.currentInitiative) {
+            return 1
+          } else {
+            return 0
+          }
+        }
+      })
+    ]
+  }
+
+  const sortPlayers = async () => {
+    setPlayers(prev => getSortedPlayers(prev))
   }
 
   useEffect(() => {
@@ -71,6 +94,7 @@ const InitTracker = ({ currentGameId }: IInitTracker) => {
   return (
     <div>
       <header>players</header>
+      <button onClick={sortPlayers}>sort</button>
       <form onSubmit={e => addPlayerToGame(e)}>
         <input
           placeholder="Add new player"
