@@ -25,20 +25,16 @@ namespace DmManager.Controllers
     [HttpGet]
     public async Task<ActionResult<Hours>> GetHours(int gameId)
     {
-      return await _context.Hours.FirstOrDefaultAsync(f => f.GameId == gameId);
-    }
-
-    // GET: api/Hours/5
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Hours>> GetAHours(int id)
-    {
-      var hours = await _context.Hours.FindAsync(id);
-
+      var hours = await _context.Hours.FirstOrDefaultAsync(f => f.GameId == gameId);
       if (hours == null)
       {
-        return NotFound();
+        hours = new Hours
+        {
+          GameId = gameId
+        };
+        await _context.Hours.AddAsync(hours);
+        await _context.SaveChangesAsync();
       }
-
       return hours;
     }
 
@@ -46,13 +42,13 @@ namespace DmManager.Controllers
     // To protect from overposting attacks, please enable the specific properties you want to bind to, for
     // more details see https://aka.ms/RazorPagesCRUD.
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutHours(int id, Hours hours)
+    public async Task<IActionResult> PutHours(int id, int gameId, Hours hours)
     {
-      if (id != hours.Id)
+      if (id != hours.Id && gameId != hours.GameId)
       {
         return BadRequest();
       }
-
+      hours.DateUpdated = DateTime.UtcNow;
       _context.Entry(hours).State = EntityState.Modified;
 
       try
@@ -74,33 +70,6 @@ namespace DmManager.Controllers
       return NoContent();
     }
 
-    // POST: api/Hours
-    // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-    // more details see https://aka.ms/RazorPagesCRUD.
-    [HttpPost]
-    public async Task<ActionResult<Hours>> PostHours(Hours hours)
-    {
-      _context.Hours.Add(hours);
-      await _context.SaveChangesAsync();
-
-      return CreatedAtAction("GetHours", new { id = hours.Id }, hours);
-    }
-
-    // DELETE: api/Hours/5
-    [HttpDelete("{id}")]
-    public async Task<ActionResult<Hours>> DeleteHours(int id)
-    {
-      var hours = await _context.Hours.FindAsync(id);
-      if (hours == null)
-      {
-        return NotFound();
-      }
-
-      _context.Hours.Remove(hours);
-      await _context.SaveChangesAsync();
-
-      return hours;
-    }
 
     private bool HoursExists(int id)
     {

@@ -1,16 +1,14 @@
-nvm use 8
-
 dotnet publish -c Release 
 
-cp dockerfile ./bin/release/netcoreapp2.1/publish
+cp dockerfile ./bin/release/netcoreapp2.2/publish
 
-docker build -t dd-player-init-tracker-image ./bin/release/netcoreapp2.1/publish
+docker build -t sdg-player-tracker-image ./bin/release/netcoreapp2.2/publish
 
-docker tag dd-player-init-tracker-image registry.heroku.com/dd-init-tracker/web
+docker tag sdg-player-tracker-image registry.heroku.com/sdg-player-tracker/web
 
-docker push registry.heroku.com/dd-init-tracker/web
+docker push registry.heroku.com/sdg-player-tracker/web
 
-heroku container:release web -a dd-init-tracker
+heroku container:release web -a sdg-player-tracker
 
 # sudo chmod 755 deploy.sh
-# ./deploy.sh%    
+# ./deploy.sh  

@@ -1,12 +1,12 @@
 .dm-notes header {
-  -webkit-transition: background-color 2s;
-  transition: background-color 2s;
+  -webkit-transition: background-color 1s;
+  transition: background-color 1s;
 }
 
 .dm-notes header.unsaved {
   background-color: orangered;
-  -webkit-transition: background-color 2s;
-  transition: background-color 2s;
+  -webkit-transition: background-color 1s;
+  transition: background-color 1s;
 }
 
 .dm-notes form {

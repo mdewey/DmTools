@@ -37,7 +37,7 @@ class Notes extends Component {
         .then(resp => {
           this.setNoteFromApi(resp.data)
         })
-    }, 2000)
+    }, 1000)
     this.setState({ currentNote, unsaved: true })
   }
 
@@ -53,7 +53,7 @@ class Notes extends Component {
     return (
       <section className="dm-notes tool-container">
         <header className={getClassNames({ unsaved: this.state.unsaved })}>
-          Notes
+          Notes {this.state.unsaved && <em>changes not saved</em>}
         </header>
         <main>
           <form>
