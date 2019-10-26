@@ -85,20 +85,20 @@ namespace DmManager.Controllers
     }
 
     // // DELETE: api/Player/5
-    // [HttpDelete("{id}")]
-    // public async Task<ActionResult<Player>> DeletePlayer(int id)
-    // {
-    //   var player = await _context.Players.FindAsync(id);
-    //   if (player == null)
-    //   {
-    //     return NotFound();
-    //   }
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<Player>> DeletePlayer(int id, int gameId)
+    {
+      var player = await _context.Players.FirstOrDefaultAsync(f => f.Id == id && f.GameId == gameId);
+      if (player == null)
+      {
+        return NotFound();
+      }
 
-    //   _context.Players.Remove(player);
-    //   await _context.SaveChangesAsync();
+      _context.Players.Remove(player);
+      await _context.SaveChangesAsync();
 
-    //   return player;
-    // }
+      return player;
+    }
 
     private bool PlayerExists(int id)
     {

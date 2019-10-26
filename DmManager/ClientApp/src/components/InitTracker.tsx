@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { async } from 'q'
 
 // TODO: SORT
 // TODO: DELETE
@@ -51,6 +52,13 @@ const InitTracker = ({ currentGameId }: IInitTracker) => {
     setPlayers(prev => [...prev, createdPlayer])
   }
 
+  const deletePlayer = async (playerId: number) => {
+    if (playerId) {
+      await axios.delete(`/api/game/${currentGameId}/players/${playerId}`)
+      setPlayers(prev => prev.filter(f => f.id !== playerId))
+    }
+  }
+
   useEffect(() => {
     if (updatedPlayer) {
       updatePlayerOnServer(updatedPlayer)
@@ -93,7 +101,7 @@ const InitTracker = ({ currentGameId }: IInitTracker) => {
                 <span>
                   <button
                     className="btn btn-link"
-                    // onClick={() => this.deletePlayer(player.id)}
+                    onClick={() => deletePlayer(player.id)}
                     tabIndex={-1}
                   >
                     delete
