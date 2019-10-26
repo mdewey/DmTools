@@ -19,7 +19,9 @@ namespace DmManager
       using (var scope = host.Services.CreateScope())
       {
         var context = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+        Console.WriteLine("Starting to migrate database....");
         await context.Database.MigrateAsync();
+        Console.WriteLine("Database is up to date, #party time");
       }
 
       await host.RunAsync();
