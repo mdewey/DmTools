@@ -3,7 +3,6 @@ import axios from 'axios'
 import { async } from 'q'
 
 // TODO: SORT
-// TODO: DELETE
 
 interface IInitTracker {
   currentGameId: number
