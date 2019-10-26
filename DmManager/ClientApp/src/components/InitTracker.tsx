@@ -14,20 +14,30 @@ interface Player {
 
 const InitTracker = ({ currentGameId }: IInitTracker) => {
   const [players, setPlayers] = useState<Array<Player>>([])
+  const [updatedPlayer, setUpdatedPlayer] = useState<Player | null>(null)
+
   const getLatest = async () => {
     const resp = await axios.get(`/api/game/${currentGameId}/players`)
     setPlayers(resp.data)
   }
 
   const updatePlayerInit = (newValue: string, playerId: number) => {
-    console.log({ newValue })
-
     setPlayers(prev => {
       const player = prev.filter(f => f.id === playerId)[0]
       player.currentInitiative = parseInt(newValue) || 0
       return [...prev]
     })
   }
+
+  const updatePlayerOnServer = async (player: Player) => {
+    await axios.put(`/api/game/${currentGameId}/players/${player.id}`, player)
+  }
+
+  useEffect(() => {
+    if (updatedPlayer) {
+      updatePlayerOnServer(updatedPlayer)
+    }
+  }, [updatedPlayer])
 
   useEffect(() => {
     getLatest()
@@ -36,34 +46,38 @@ const InitTracker = ({ currentGameId }: IInitTracker) => {
   return (
     <div>
       <header>players</header>
-      <ul>
-        {players.map(player => {
-          return (
-            <li key={player.id.toString()} className="">
-              <span>
-                <input
-                  placeholder="init"
-                  value={player.currentInitiative || 0}
-                  // onBlur={e => this.savePlayerInit(e, player.id)}
-                  onChange={e => updatePlayerInit(e.target.value, player.id)}
-                  type="text"
-                  className="init-input"
-                />
-              </span>
-              <span className="player-name">{player.name}</span>
+      <form onSubmit={e => e.preventDefault()}>
+        <ul>
+          {players.map((player, i) => {
+            return (
+              <li key={player.id.toString()} className="">
+                <span>
+                  <input
+                    placeholder="init"
+                    value={player.currentInitiative || ''}
+                    onBlur={e => setUpdatedPlayer(player)}
+                    onChange={e => updatePlayerInit(e.target.value, player.id)}
+                    type="text"
+                    className="init-input"
+                    tabIndex={i + 1}
+                  />
+                </span>
+                <span className="player-name">{player.name}</span>
 
-              <span>
-                <button
-                  className="btn btn-link"
-                  // onClick={() => this.deletePlayer(player.id)}
-                >
-                  delete
-                </button>
-              </span>
-            </li>
-          )
-        })}
-      </ul>
+                <span>
+                  <button
+                    className="btn btn-link"
+                    // onClick={() => this.deletePlayer(player.id)}
+                    tabIndex={-1}
+                  >
+                    delete
+                  </button>
+                </span>
+              </li>
+            )
+          })}
+        </ul>
+      </form>
     </div>
   )
 }

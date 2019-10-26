@@ -45,34 +45,34 @@ namespace DmManager.Controllers
     // // PUT: api/Player/5
     // // To protect from overposting attacks, please enable the specific properties you want to bind to, for
     // // more details see https://aka.ms/RazorPagesCRUD.
-    // [HttpPut("{id}")]
-    // public async Task<IActionResult> PutPlayer(int id, Player player)
-    // {
-    //   if (id != player.Id)
-    //   {
-    //     return BadRequest();
-    //   }
+    [HttpPut("{id}")]
+    public async Task<IActionResult> PutPlayer(int id, int gameId, Player player)
+    {
+      if (id != player.Id || gameId != player.GameId)
+      {
+        return BadRequest();
+      }
 
-    //   _context.Entry(player).State = EntityState.Modified;
+      _context.Entry(player).State = EntityState.Modified;
 
-    //   try
-    //   {
-    //     await _context.SaveChangesAsync();
-    //   }
-    //   catch (DbUpdateConcurrencyException)
-    //   {
-    //     if (!PlayerExists(id))
-    //     {
-    //       return NotFound();
-    //     }
-    //     else
-    //     {
-    //       throw;
-    //     }
-    //   }
+      try
+      {
+        await _context.SaveChangesAsync();
+      }
+      catch (DbUpdateConcurrencyException)
+      {
+        if (!PlayerExists(id))
+        {
+          return NotFound();
+        }
+        else
+        {
+          throw;
+        }
+      }
 
-    //   return NoContent();
-    // }
+      return Ok();
+    }
 
     // // POST: api/Player
     // // To protect from overposting attacks, please enable the specific properties you want to bind to, for
