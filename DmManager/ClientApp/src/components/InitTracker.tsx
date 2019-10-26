@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
-// TODO: ADD
 // TODO: SORT
 // TODO: DELETE
 
 interface IInitTracker {
-  currentGameId: Number
+  currentGameId: number
 }
 
 interface Player {
@@ -19,6 +18,7 @@ interface Player {
 const InitTracker = ({ currentGameId }: IInitTracker) => {
   const [players, setPlayers] = useState<Array<Player>>([])
   const [updatedPlayer, setUpdatedPlayer] = useState<Player | null>(null)
+  const [newPlayer, setNewPlayer] = useState<string>('')
 
   const getLatest = async () => {
     const resp = await axios.get(`/api/game/${currentGameId}/players`)
@@ -36,6 +36,20 @@ const InitTracker = ({ currentGameId }: IInitTracker) => {
   const updatePlayerOnServer = async (player: Player) => {
     await axios.put(`/api/game/${currentGameId}/players/${player.id}`, player)
   }
+  const addPlayerToGame = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    console.log({ newPlayer })
+    const data = newPlayer.split(',')
+    const player: Player = {
+      currentInitiative: parseInt(data[1]) || 0,
+      name: data[0],
+      id: 0,
+      gameId: -1
+    }
+    const resp = await axios.post(`/api/game/${currentGameId}/players`, player)
+    const createdPlayer = resp.data as Player
+    setPlayers(prev => [...prev, createdPlayer])
+  }
 
   useEffect(() => {
     if (updatedPlayer) {
@@ -50,6 +64,14 @@ const InitTracker = ({ currentGameId }: IInitTracker) => {
   return (
     <div>
       <header>players</header>
+      <form onSubmit={e => addPlayerToGame(e)}>
+        <input
+          placeholder="Add new player"
+          onChange={e => setNewPlayer(e.target.value)}
+          value={newPlayer}
+        />
+        <button className="btn btn-link uppercase add-person-btn">add</button>
+      </form>
       <form onSubmit={e => e.preventDefault()}>
         <ul>
           {players.map((player, i) => {

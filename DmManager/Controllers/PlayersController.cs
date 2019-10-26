@@ -74,17 +74,15 @@ namespace DmManager.Controllers
       return Ok();
     }
 
-    // // POST: api/Player
-    // // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-    // // more details see https://aka.ms/RazorPagesCRUD.
-    // [HttpPost]
-    // public async Task<ActionResult<Player>> PostPlayer(Player player)
-    // {
-    //   _context.Players.Add(player);
-    //   await _context.SaveChangesAsync();
+    [HttpPost]
+    public async Task<ActionResult<Player>> PostPlayer(int gameId, Player player)
+    {
+      player.GameId = gameId;
+      _context.Players.Add(player);
+      await _context.SaveChangesAsync();
 
-    //   return CreatedAtAction("GetPlayer", new { id = player.Id }, player);
-    // }
+      return Ok(player);
+    }
 
     // // DELETE: api/Player/5
     // [HttpDelete("{id}")]

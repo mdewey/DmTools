@@ -21,9 +21,15 @@ const Dashboard = () => {
   return (
     <div>
       <SelectGame updateSelectedGame={setSelectedGameId} />
-      <h1>Playing: {currentGame.name}</h1>
-      <TimeCounter currentGameId={selectedGameId} />
-      <InitTracker currentGameId={selectedGameId} />
+      {selectedGameId ? (
+        <>
+          <h1>Playing: {currentGame.name}</h1>
+          <TimeCounter currentGameId={selectedGameId} />
+          <InitTracker currentGameId={selectedGameId} />
+        </>
+      ) : (
+        <p>waiting, sweet heart</p>
+      )}
     </div>
   )
 }
