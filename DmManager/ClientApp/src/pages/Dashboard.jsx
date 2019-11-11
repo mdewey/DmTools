@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import TimeCounter from "../components/TimeCounter";
-import SelectGame from "../components/SelectGame";
-import InitTracker from "../components/InitTracker";
-import Notes from "../components/Notes";
+import React, { useState, useEffect } from 'react';
+import TimeCounter from '../components/TimeCounter';
+import SelectGame from '../components/SelectGame';
+import InitTracker from '../components/InitTracker';
+import Notes from '../components/Notes';
 
 const Dashboard = () => {
   const [selectedGameId, setSelectedGameId] = useState(0);
@@ -10,7 +10,7 @@ const Dashboard = () => {
 
   const getGame = async () => {
     if (selectedGameId) {
-      const game = await (await fetch("/api/games/" + selectedGameId)).json();
+      const game = await (await fetch('/api/games/' + selectedGameId)).json();
       setCurrentGame(game);
     }
   };
