@@ -31,6 +31,7 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
+    "prettier": "^1.19.1",
     "typescript": "^3.6.4"
   },
   "eslintConfig": {

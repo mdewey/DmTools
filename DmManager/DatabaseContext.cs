@@ -13,6 +13,7 @@ namespace DmManager
     public DbSet<Game> Games { get; set; }
     public DbSet<Hours> Hours { get; set; }
     public DbSet<Player> Players { get; set; }
+    public DbSet<Note> Notes { get; set; }
 
     private string ConvertPostConnectionToConnectionString(string connection)
     {
