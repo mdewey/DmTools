@@ -9,7 +9,53 @@ const Notes = ({ gameId }: Notes) => {
     console.log('updating notes for the game id ' + gameId);
   }, [gameId]);
 
-  return <div>Notes goes here!!!! for game id {gameId}</div>;
+  return (
+    <>
+      <section>
+        <header>
+          <form>
+            <input type="text" placeholder="add notes" />
+            <button>ADD +</button>
+          </form>
+        </header>
+        <header>
+          <form>
+            <input type="search" placeholder="search notes" />
+            <button>search</button>
+          </form>
+        </header>
+        <main>
+          <ul>
+            <li>
+              <main>some note goes here</main>
+              <time>happen sometime go</time>
+              <button>X</button>
+            </li>
+            <li>
+              <main>some note goes here</main>
+              <time>happen sometime go</time>
+              <button>X</button>
+            </li>
+            <li>
+              <main>some note goes here</main>
+              <time>happen sometime go</time>
+              <button>X</button>
+            </li>
+            <li>
+              <main>some note goes here</main>
+              <time>happen sometime go</time>
+              <button>X</button>
+            </li>
+            <li>
+              <main>some note goes here</main>
+              <time>happen sometime go</time>
+              <button>X</button>
+            </li>
+          </ul>
+        </main>
+      </section>
+    </>
+  );
 };
 
 export default Notes;
