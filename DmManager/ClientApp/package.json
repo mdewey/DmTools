@@ -44,6 +44,12 @@
     "eject": "react-scripts eject",
     "lint": "eslint ./src/"
   },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true
+  },
   "browserslist": {
     "production": [
       ">0.2%",

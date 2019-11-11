@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 
 type Notes = {
   gameId: number;
@@ -6,7 +6,7 @@ type Notes = {
 
 const Notes = ({ gameId }: Notes) => {
   useEffect(() => {
-    console.log("updating notes for the game id " + gameId);
+    console.log('updating notes for the game id ' + gameId);
   }, [gameId]);
 
   return <div>Notes goes here!!!! for game id {gameId}</div>;
