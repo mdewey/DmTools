@@ -13,6 +13,7 @@ type Note = {
 
 const Notes = ({ gameId }: NotesProperties) => {
   const [notes, setNotes] = useState<Array<Note>>([]);
+  const [newNote, setNewNote] = useState<string>();
 
   useEffect(() => {
     console.log('updating notes for the game id ' + gameId);
@@ -25,16 +26,43 @@ const Notes = ({ gameId }: NotesProperties) => {
     setNotes(resp.data);
   };
 
+  const addNote = async (
+    e: React.FormEvent<HTMLFormElement>,
+    _gameId: number
+  ) => {
+    e.preventDefault();
+    const resp = await axios.post(`/api/game/${_gameId}/notes`, {
+      body: newNote,
+    } as Note);
+    setNotes(prev => {
+      return [resp.data, ...prev];
+    });
+    setNewNote('');
+  };
+
   const deleteNote = async (note: Note) => {
+    const old = [...notes];
+    setNotes(prev => {
+      return [...prev.filter(f => f.id != note.id)];
+    });
     console.log('detoxing', note);
+    const resp = await axios.delete(`/api/game/${gameId}/notes/${note.id}`);
+    if (resp.status !== 200) {
+      setNotes(old);
+    }
   };
 
   return (
     <>
       <section>
         <header>
-          <form>
-            <input type="text" placeholder="add notes" />
+          <form onSubmit={e => addNote(e, gameId)}>
+            <input
+              type="text"
+              placeholder="add notes"
+              value={newNote}
+              onChange={e => setNewNote(e.target.value)}
+            />
             <button>ADD +</button>
           </form>
         </header>

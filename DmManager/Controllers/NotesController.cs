@@ -25,73 +25,75 @@ namespace DmManager.Controllers
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Note>>> GetNotes(int gameId)
     {
-      return await _context.Notes.Where(w => w.GameId == gameId).ToListAsync();
+      return await _context.Notes.OrderByDescending(o => o.When).Where(w => w.GameId == gameId).ToListAsync();
     }
 
-    // GET: api/Notes/5
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Note>> GetNote(int id)
-    {
-      var note = await _context.Notes.FindAsync(id);
+    // // GET: api/Notes/5
+    // [HttpGet("{id}")]
+    // public async Task<ActionResult<Note>> GetNote(int id)
+    // {
+    //   var note = await _context.Notes.FindAsync(id);
 
-      if (note == null)
-      {
-        return NotFound();
-      }
+    //   if (note == null)
+    //   {
+    //     return NotFound();
+    //   }
 
-      return note;
-    }
+    //   return note;
+    // }
 
     // PUT: api/Notes/5
     // To protect from overposting attacks, please enable the specific properties you want to bind to, for
     // more details see https://aka.ms/RazorPagesCRUD.
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutNote(int id, Note note)
-    {
-      if (id != note.Id)
-      {
-        return BadRequest();
-      }
+    // [HttpPut("{id}")]
+    // public async Task<IActionResult> PutNote(int id, Note note)
+    // {
+    //   if (id != note.Id)
+    //   {
+    //     return BadRequest();
+    //   }
 
-      _context.Entry(note).State = EntityState.Modified;
+    //   _context.Entry(note).State = EntityState.Modified;
 
-      try
-      {
-        await _context.SaveChangesAsync();
-      }
-      catch (DbUpdateConcurrencyException)
-      {
-        if (!NoteExists(id))
-        {
-          return NotFound();
-        }
-        else
-        {
-          throw;
-        }
-      }
+    //   try
+    //   {
+    //     await _context.SaveChangesAsync();
+    //   }
+    //   catch (DbUpdateConcurrencyException)
+    //   {
+    //     if (!NoteExists(id))
+    //     {
+    //       return NotFound();
+    //     }
+    //     else
+    //     {
+    //       throw;
+    //     }
+    //   }
 
-      return NoContent();
-    }
+    //   return NoContent();
+    // }
 
-    // POST: api/Notes
-    // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+    // // POST: api/Notes
+    // // To protect from overposting attacks, please enable the specific properties you want to bind to, for
     // more details see https://aka.ms/RazorPagesCRUD.
     [HttpPost]
-    public async Task<ActionResult<Note>> PostNote(Note note)
+    public async Task<ActionResult<Note>> PostNote(int gameId, NoteVM noteVM)
     {
-      _context.Notes.Add(note);
+      var noteEntity = _context.Notes.Add(new Note());
+      noteEntity.CurrentValues.SetValues(noteVM);
+      noteEntity.Entity.GameId = gameId;
       await _context.SaveChangesAsync();
 
-      return CreatedAtAction("GetNote", new { id = note.Id }, note);
+      return Ok(noteEntity.Entity);
     }
 
     // DELETE: api/Notes/5
     [HttpDelete("{id}")]
-    public async Task<ActionResult<Note>> DeleteNote(int id)
+    public async Task<ActionResult<Note>> DeleteNote(int gameId, int id)
     {
       var note = await _context.Notes.FindAsync(id);
-      if (note == null)
+      if (note == null || note.GameId != gameId)
       {
         return NotFound();
       }

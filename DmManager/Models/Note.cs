@@ -9,6 +9,10 @@ namespace DmManager.Models
     public DateTime When { get; set; } = DateTime.UtcNow;
     public int GameId { get; set; }
     public Game Game { get; set; }
+  }
 
+  public class NoteVM
+  {
+    public string Body { get; set; }
   }
 }
