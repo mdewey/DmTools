@@ -14,6 +14,7 @@ type Note = {
 const Notes = ({ gameId }: NotesProperties) => {
   const [notes, setNotes] = useState<Array<Note>>([]);
   const [newNote, setNewNote] = useState<string>();
+  const [filter, setFilter] = useState<string>();
 
   useEffect(() => {
     console.log('updating notes for the game id ' + gameId);
@@ -52,6 +53,19 @@ const Notes = ({ gameId }: NotesProperties) => {
     }
   };
 
+  const searchNotes = async () => {
+    if (filter && filter.trim()) {
+      const resp = await axios.get(
+        `/api/game/${gameId}/notes/search?term=${filter}`
+      );
+      console.log(resp.data);
+      setNotes(resp.data);
+    } else {
+      // do a get to get all
+      getAllNotes(gameId);
+    }
+  };
+
   return (
     <>
       <section>
@@ -67,8 +81,18 @@ const Notes = ({ gameId }: NotesProperties) => {
           </form>
         </header>
         <header>
-          <form>
-            <input type="search" placeholder="search notes" />
+          <form
+            onSubmit={e => {
+              e.preventDefault();
+              searchNotes();
+            }}
+          >
+            <input
+              type="search"
+              placeholder="search notes"
+              value={filter}
+              onChange={e => setFilter(e.target.value.toLowerCase())}
+            />
             <button>search</button>
           </form>
         </header>
@@ -86,7 +110,9 @@ const Notes = ({ gameId }: NotesProperties) => {
               })}
             </ul>
           ) : (
-            <em>no notes yet....</em>
+            <em>
+              the moose should have told you out front, nothing to see here
+            </em>
           )}
         </main>
       </section>

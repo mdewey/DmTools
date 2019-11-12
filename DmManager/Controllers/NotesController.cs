@@ -28,6 +28,14 @@ namespace DmManager.Controllers
       return await _context.Notes.OrderByDescending(o => o.When).Where(w => w.GameId == gameId).ToListAsync();
     }
 
+    [HttpGet("search")]
+    public async Task<ActionResult<IEnumerable<Note>>> GetNotes(int gameId, [FromQuery]string term)
+    {
+      return await _context.Notes
+        .OrderByDescending(o => o.When)
+        .Where(w => w.GameId == gameId && w.Body.ToLower().Contains(term.ToLower())).ToListAsync();
+    }
+
     // // GET: api/Notes/5
     // [HttpGet("{id}")]
     // public async Task<ActionResult<Note>> GetNote(int id)
